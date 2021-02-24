@@ -1,0 +1,57 @@
+* {
+  box-sizing: border-box;
+}
+
+.quiz {
+  display: block;
+  border: solid black 3px;
+  width: 80%;
+  text-align: center;
+  margin: 20px auto;
+}
+
+#questionTextHTML {
+  display: block;
+  width: 60%;
+  margin: 20px auto;
+  border: solid indigo 1px;
+  padding: 10px;
+  
+}
+
+.answer {
+  width: 40%;
+  border: solid indigo 4px;
+  margin: 10px auto;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: 900;
+  display: inline-block;
+  transition: all 1s;
+}
+
+.answerfalls {
+  width: 40%;
+  color: white;
+  border: solid red 4px;
+  background-color: red;
+  margin: 10px auto;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: 900;
+  display: inline-block;
+  transition: all 1s;
+}
+
+.answer:hover {
+  color: whitesmoke;
+  background-color: indigo;
+}
+
+.marking {
+  padding: 20px;
+  background-color: lawngreen;
+  margin-right: 20px;
+  border-radius: 50%;
+  font-weight: bolder;
+}
