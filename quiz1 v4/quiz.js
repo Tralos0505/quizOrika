@@ -67,6 +67,8 @@ let maxScoreHTML = document.getElementById("maxScoreHTML");
 let timeSavedHTML = document.getElementById("timeSavedHTML");
 let totalTimeHTML = document.getElementById("totalTimeHTML");
 
+let imageFeedbackHTML = document.getElementById("imageFeedback");
+
 let nextButton = document.getElementById("btn");
 
 /*******************************************************************/
@@ -143,7 +145,9 @@ function nextQuestion() {
 
 function checkAnswer() {
   if (this.innerText == questionArray[questionNumberToShow].correctAnswer) {
-    console.log("YEAH");
+    imageFeedbackHTML.setAttribute("src", "yeah.jpg");
+  } else {
+    imageFeedbackHTML.setAttribute("src", "fail.jpg");
   }
 }
 
