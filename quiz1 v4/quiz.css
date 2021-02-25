@@ -2,13 +2,30 @@
   box-sizing: border-box;
 }
 
+/****** Generell Opdeelung ******/
+
 .quiz {
-  display: block;
+  display: flex;
   border: solid black 3px;
   width: 80%;
   text-align: center;
   margin: 20px auto;
 }
+
+#actualQuiz {
+  flex-grow: 8;
+  border: 5px solid blue;
+  padding: 20px;
+  margin: 20px;
+}
+
+#quizInformations {
+  flex-grow: 2;
+  border: 5px solid blue;
+  margin: 20px;
+}
+
+/********* Actual Quiz Content **********/
 
 #questionTextHTML {
   display: block;
@@ -16,7 +33,6 @@
   margin: 20px auto;
   border: solid indigo 1px;
   padding: 10px;
-  
 }
 
 .answer {
@@ -30,23 +46,12 @@
   transition: all 1s;
 }
 
-.answerfalls {
-  width: 40%;
-  color: white;
-  border: solid red 4px;
-  background-color: red;
-  margin: 10px auto;
-  padding: 15px;
-  font-size: 20px;
-  font-weight: 900;
-  display: inline-block;
-  transition: all 1s;
-}
-
 .answer:hover {
   color: whitesmoke;
   background-color: indigo;
 }
+
+/******* Kreeser *******/
 
 .marking {
   padding: 20px;
@@ -54,4 +59,13 @@
   margin-right: 20px;
   border-radius: 50%;
   font-weight: bolder;
+}
+
+/**** Deppchen nächst fro ****/
+
+#btn {
+  padding: 10px;
+  border: solid black 3px;
+  font-size: 20px;
+  border-radius: 10px;
 }

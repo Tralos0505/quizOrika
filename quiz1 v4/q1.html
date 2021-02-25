@@ -13,29 +13,53 @@
   </head>
   <body>
     <div class="quiz">
+      <div id="actualQuiz">
+        <h1>Quiz Test Version 3</h1>
+        <hr />
+        <progress value="0" max="60" id="progressBar"></progress>
 
-      <h1>Quiz Test Version 3</h1>
-      <hr>
-      <br>
-      <progress value="0" max="60" id="progressBar"></progress>
-      <br>
-      <div>Punkten: <span id="scoreHTML"></span></div>
-      <br>
-      <div>FRO <span id="noqaaHTML"></span>/5</div>
-      <hr>
+        <div>FRO <span id="questionNumberHTML"></span>/5</div>
+        <br />
+        <hr />
 
-      <div id="questionTextHTML">QUESTION TEXT</div>
-      
-      
-        <div><span class="marking">A</span><p class="answer" id="answer1HTML">A1</p></div>
-        <div><span class="marking">B</span><p class="answer" id="answer2HTML">A2</p></div>
-        <div><span class="marking">C</span><p class="answer" id="answer3HTML">A3</p></div>
-        <div><span class="marking">D</span><p class="answer" id="answer4HTML">A4</p></div> 
-      
+        <div id="questionTextHTML">QUESTION TEXT</div>
 
+        <div>
+          <span class="marking">A</span>
+          <p class="answer" id="answer1HTML">A1</p>
+        </div>
+        <div>
+          <span class="marking">B</span>
+          <p class="answer" id="answer2HTML">A2</p>
+        </div>
+        <div>
+          <span class="marking">C</span>
+          <p class="answer" id="answer3HTML">A3</p>
+        </div>
+        <div>
+          <span class="marking">D</span>
+          <p class="answer" id="answer4HTML">A4</p>
+        </div>
+        <hr />
+        <div>
+          <button id="btn">Nächst Fro</button>
+        </div>
       </div>
-    
-    
+      <div id="quizInformations">
+        <h1>Infos</h1>
+        <hr />
+        <h2>Punkten:</h2>
+        <p><span id="scoreHTML">0</span>/<span id="maxScoreHTML">5</span></p>
+        <hr />
+        <h2>Reschtzäit</h2>
+        <p>
+          <span id="timeSavedHTML">0</span>/<span id="totalTimeHTML">x</span>
+          Sekonnen
+        </p>
+        <hr />
+        <div><img src="yeah.jpg" width="100px" /></div>
+      </div>
+    </div>
   </body>
   <script src="quiz.js"></script>
 </html>

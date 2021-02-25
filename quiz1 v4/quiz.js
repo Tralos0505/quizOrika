@@ -1,4 +1,5 @@
-/* Question Class -- Defines the global Question Object*/
+/* Question Class and Array -- Defines the global Question Object*/
+/******************************************************************/
 
 class Question {
   constructor(
@@ -17,8 +18,6 @@ class Question {
   }
 }
 
-/* Define the Question as an Array*/
-
 var questionArray = [
   new Question("Element Eisen?", "Fe", "Br", "I", "Cl", "Fe", false),
   new Question("Element Gold?", "Fe", "Au", "I", "Cl", "Au", false),
@@ -31,35 +30,122 @@ var questionArray = [
   new Question("Element Zink?", "Fe", "Br", "I", "Zn", "Zn", false),
 ];
 
-/*Global Variables*/
+/********************************************************************/
+/********************************************************************/
 
-var questionNumberToShow = Math.floor(Math.random() * questionArray.length);
-var score = 0;
-var numberOfQuestionsAllreadyAsked = 0;
+/*********************  Global variables **************************/
+/******************************************************************/
+
+let numberofQuestionsToAsk = 5;
+
+let questionNumberToShow = Math.floor(Math.random() * questionArray.length);
+let numberOfQuestionsAllreadyAsked = 0;
+
+let score = 0;
+let maxScore = numberofQuestionsToAsk * 4;
 var scoringAllowed = true;
 
-/*Elements got from HTML DOCUMENT*/
+let timePerQuestion = 60;
+let totalTime = timePerQuestion * numberofQuestionsToAsk;
+let timeSaved = 0;
 
-var questionTextHTML = document.getElementById("questionTextHTML");
-var answer1HTML = document.getElementById("answer1HTML");
-var answer2HTML = document.getElementById("answer2HTML");
-var answer3HTML = document.getElementById("answer3HTML");
-var answer4HTML = document.getElementById("answer4HTML");
-var scoreHTML = document.getElementById("scoreHTML");
-var noqaaHTML = document.getElementById("noqaaHTML");
+/********************************************************************/
+/********************************************************************/
 
-/*Event Listeners*/
+/****************  Get elements from site **************************/
+/*******************************************************************/
+
+let questionTextHTML = document.getElementById("questionTextHTML");
+let answer1HTML = document.getElementById("answer1HTML");
+let answer2HTML = document.getElementById("answer2HTML");
+let answer3HTML = document.getElementById("answer3HTML");
+let answer4HTML = document.getElementById("answer4HTML");
+
+let scoreHTML = document.getElementById("scoreHTML");
+let maxScoreHTML = document.getElementById("maxScoreHTML");
+
+let timeSavedHTML = document.getElementById("timeSavedHTML");
+let totalTimeHTML = document.getElementById("totalTimeHTML");
+
+let nextButton = document.getElementById("btn");
+
+/*******************************************************************/
+/*******************************************************************/
+
+/************************ EVENTLISTENERS **************************/
+/******************************************************************/
 
 answer1HTML.addEventListener("click", checkAnswer);
 answer2HTML.addEventListener("click", checkAnswer);
 answer3HTML.addEventListener("click", checkAnswer);
 answer4HTML.addEventListener("click", checkAnswer);
 
-/* LOGIC */
+nextButton.addEventListener("click", nextQuestion);
 
-/* Array shuffle function*/
+/*******************************************************************/
+/*******************************************************************/
 
-function shuffle(array) {
+/**************  Updates elements to the site *********************/
+/******************************************************************/
+
+/* Initialisation of the site*/
+
+initGame();
+
+/*set question and answer text*/
+
+/*set score*/
+
+scoreHTML.textContent = score;
+maxScoreHTML.textContent = maxScore;
+
+/*set timeleft total*/
+
+timeSavedHTML.textContent = timeSaved;
+totalTimeHTML.textContent = totalTime;
+
+/*******************************************************************/
+/*******************************************************************/
+
+/************** Functions to use - Logic **************************/
+/******************************************************************/
+
+/* Function called to show the next question (on button click and on first loading) */
+
+function nextQuestion() {
+  /* Chose new question until the question was not asked yet -- Crashes if no more available questions */
+
+  while (questionArray[questionNumberToShow].allreadyAsked) {
+    questionNumberToShow = Math.floor(Math.random() * questionArray.length);
+  }
+
+  /* Shuffle the answers of the chosen question */
+
+  questionArray[questionNumberToShow].answerArray = shuffleArray(
+    questionArray[questionNumberToShow].answerArray
+  );
+
+  /* Set the question in the site content */
+
+  questionTextHTML.innerText = questionArray[questionNumberToShow].questionText;
+  answer1HTML.innerText = questionArray[questionNumberToShow].answerArray[0];
+  answer2HTML.innerText = questionArray[questionNumberToShow].answerArray[1];
+  answer3HTML.innerText = questionArray[questionNumberToShow].answerArray[2];
+  answer4HTML.innerText = questionArray[questionNumberToShow].answerArray[3];
+
+  /* Set allready asked to true because question was asked */
+
+  questionArray[questionNumberToShow].allreadyAsked = true;
+  console.log(questionArray[questionNumberToShow]);
+}
+
+/* Function to check if the answer is correct */
+
+function checkAnswer() {}
+
+/* Function to shuffle randomly an array*/
+
+function shuffleArray(array) {
   var currentIndex = array.length,
     temporaryValue,
     randomIndex;
@@ -79,78 +165,11 @@ function shuffle(array) {
   return array;
 }
 
-/* Show Questions and Asnwers*/
+/* Function called to init the game on site loading*/
 
-function showNextQuestionAndAnswers() {
-  while (questionArray[questionNumberToShow].allreadyAsked) {
-    questionNumberToShow = Math.floor(Math.random() * questionArray.length);
-  }
-
-  questionTextHTML.innerText = questionArray[questionNumberToShow].questionText;
-  questionArray[questionNumberToShow].answerArray = shuffle(
-    questionArray[questionNumberToShow].answerArray
-  );
-
-  answer1HTML.innerText = questionArray[questionNumberToShow].answerArray[0];
-  answer2HTML.innerText = questionArray[questionNumberToShow].answerArray[1];
-  answer3HTML.innerText = questionArray[questionNumberToShow].answerArray[2];
-  answer4HTML.innerText = questionArray[questionNumberToShow].answerArray[3];
-  questionArray[questionNumberToShow].allreadyAsked = true;
+function initGame() {
+  nextQuestion();
 }
 
-function checkAnswer() {
-  if (this.innerText == questionArray[questionNumberToShow].correctAnswer) {
-    if (scoringAllowed) {
-      score++;
-    }
-
-    numberOfQuestionsAllreadyAsked++;
-    updateSite();
-    showNextQuestionAndAnswers();
-  } else {
-    scoringAllowed = false;
-    this.classList.add("answerfalls");
-  }
-}
-
-function updateSite() {
-  scoreHTML.innerHTML = score;
-  noqaaHTML.innerText = numberOfQuestionsAllreadyAsked;
-  scoringAllowed = true;
-  answer1HTML.classList.remove("answerfalls");
-  answer2HTML.classList.remove("answerfalls");
-  answer3HTML.classList.remove("answerfalls");
-  answer4HTML.classList.remove("answerfalls");
-  gameOver();
-}
-
-/*GAME FINISHED*/
-function gameOver() {
-  if (numberOfQuestionsAllreadyAsked >= 5) {
-    /*timeleft = -1;*/
-    alert(
-      "Zait/Spill ass eriwer du hues " +
-        score +
-        " / 5 Punkten an du hues nach" +
-        timeleft +
-        " Sekonnen"
-    );
-  }
-}
-
-/*TIMER*/
-
-var timeleft = 60;
-var downloadTimer = setInterval(function () {
-  if (timeleft <= 0) {
-    alert("Zait/Spill ass eriwer du hues " + score + " / 5 Punkten");
-  }
-  document.getElementById("progressBar").value = 60 - timeleft;
-  timeleft -= 1;
-}, 1000);
-
-/*INIT*/
-
-showNextQuestionAndAnswers();
-scoreHTML.innerText = score;
-noqaaHTML.innerText = numberOfQuestionsAllreadyAsked;
+/*******************************************************************/
+/*******************************************************************/
