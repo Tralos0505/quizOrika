@@ -141,7 +141,11 @@ function nextQuestion() {
 
 /* Function to check if the answer is correct */
 
-function checkAnswer() {}
+function checkAnswer() {
+  if (this.innerText == questionArray[questionNumberToShow].correctAnswer) {
+    console.log("YEAH");
+  }
+}
 
 /* Function to shuffle randomly an array*/
 
