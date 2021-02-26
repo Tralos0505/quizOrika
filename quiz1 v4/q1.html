@@ -14,32 +14,44 @@
   <body>
     <div class="quiz">
       <div id="actualQuiz">
-        <h1>Quiz Test Version 3</h1>
+        <h1 id="title">Quiz Test Version 3</h1>
         <hr />
+        <p>Zait: <span id="timeInSeconds"></span></p>
         <progress value="0" max="60" id="progressBar"></progress>
-
-        <div>FRO <span id="questionNumberHTML"></span>/5</div>
+        <br />
+        <br />
+        <hr />
+        <br />
+        <div>
+          FRO <span id="questionNumberHTML"></span>/<span
+            id="maxQuestionsHTML"
+          ></span>
+        </div>
         <br />
         <hr />
 
         <div id="questionTextHTML">QUESTION TEXT</div>
+        <div id="allAnswers">
+          <div>
+            <span class="marking">A</span>
+            <p class="answer" id="answer1HTML">A1</p>
+          </div>
+          <div>
+            <span class="marking">B</span>
+            <p class="answer" id="answer2HTML">A2</p>
+          </div>
+          <div>
+            <span class="marking">C</span>
+            <p class="answer" id="answer3HTML">A3</p>
+          </div>
+          <div>
+            <span class="marking">D</span>
+            <p class="answer" id="answer4HTML">A4</p>
+          </div>
+        </div>
 
-        <div>
-          <span class="marking">A</span>
-          <p class="answer" id="answer1HTML">A1</p>
-        </div>
-        <div>
-          <span class="marking">B</span>
-          <p class="answer" id="answer2HTML">A2</p>
-        </div>
-        <div>
-          <span class="marking">C</span>
-          <p class="answer" id="answer3HTML">A3</p>
-        </div>
-        <div>
-          <span class="marking">D</span>
-          <p class="answer" id="answer4HTML">A4</p>
-        </div>
+        <p id="correctToShow" class="hidden">Test</p>
+
         <hr />
         <div>
           <button id="btn">Nächst Fro</button>
@@ -58,6 +70,8 @@
         </p>
         <hr />
         <div><img src="fail.jpg" width="100px" id="imageFeedback" /></div>
+        <hr />
+        <h1 id="momentScore">4</h1>
       </div>
     </div>
   </body>

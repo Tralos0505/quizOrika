@@ -43,12 +43,38 @@
   font-size: 20px;
   font-weight: 900;
   display: inline-block;
-  transition: all 1s;
+  transition: all 0.5s;
 }
 
 .answer:hover {
   color: whitesmoke;
   background-color: indigo;
+}
+
+.answerfalse {
+  width: 40%;
+  color: white;
+  border: solid red 4px;
+  background-color: red;
+  margin: 10px auto;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: 900;
+  display: inline-block;
+  transition: all 0.2s;
+}
+
+.answercorrect {
+  width: 40%;
+  color: white;
+  border: solid rgb(115, 255, 0) 4px;
+  background-color: rgb(115, 255, 0);
+  margin: 10px auto;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: 900;
+  display: inline-block;
+  transition: all 0.2s;
 }
 
 /******* Kreeser *******/
@@ -68,4 +94,17 @@
   border: solid black 3px;
   font-size: 20px;
   border-radius: 10px;
+}
+
+/**** Hidden class ****/
+
+.hidden {
+  display: none;
+}
+
+/**** Moment Score ****/
+
+#momentScore {
+  font-size: 120px;
+  color: greenyellow;
 }
