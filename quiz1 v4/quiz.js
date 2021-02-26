@@ -36,18 +36,23 @@ var questionArray = [
 /*********************  Global variables **************************/
 /******************************************************************/
 
-let numberofQuestionsToAsk = 5;
+let quizTitle = "Chemie Quiz v.4 (with Timer)";
+
+let numberofQuestionsToAsk = 3;
 
 let questionNumberToShow = Math.floor(Math.random() * questionArray.length);
 let numberOfQuestionsAllreadyAsked = 0;
+let answerTrys = 4;
 
 let score = 0;
 let maxScore = numberofQuestionsToAsk * 4;
-var scoringAllowed = true;
 
 let timePerQuestion = 60;
 let totalTime = timePerQuestion * numberofQuestionsToAsk;
 let timeSaved = 0;
+let stoppTimer = false;
+
+let timeLeftPerQuestion = 5;
 
 /********************************************************************/
 /********************************************************************/
@@ -55,21 +60,32 @@ let timeSaved = 0;
 /****************  Get elements from site **************************/
 /*******************************************************************/
 
+let titleHTML = document.getElementById("title");
+let questionNumberHTML = document.getElementById("questionNumberHTML");
+let maxQuestionsHTML = document.getElementById("maxQuestionsHTML");
+
 let questionTextHTML = document.getElementById("questionTextHTML");
 let answer1HTML = document.getElementById("answer1HTML");
 let answer2HTML = document.getElementById("answer2HTML");
 let answer3HTML = document.getElementById("answer3HTML");
 let answer4HTML = document.getElementById("answer4HTML");
 
+let allAnswersHTML = document.getElementById("allAnswers");
+let correctToShowHTML = document.getElementById("correctToShow");
+
 let scoreHTML = document.getElementById("scoreHTML");
 let maxScoreHTML = document.getElementById("maxScoreHTML");
 
 let timeSavedHTML = document.getElementById("timeSavedHTML");
 let totalTimeHTML = document.getElementById("totalTimeHTML");
+let progressbarHTML = document.getElementById("progressBar");
+let timeInSecondsHTML = document.getElementById("timeInSeconds");
 
 let imageFeedbackHTML = document.getElementById("imageFeedback");
 
 let nextButton = document.getElementById("btn");
+let actualQuizHTML = document.getElementById("actualQuiz");
+let momentScoreHTML = document.getElementById("momentScore");
 
 /*******************************************************************/
 /*******************************************************************/
@@ -82,7 +98,7 @@ answer2HTML.addEventListener("click", checkAnswer);
 answer3HTML.addEventListener("click", checkAnswer);
 answer4HTML.addEventListener("click", checkAnswer);
 
-nextButton.addEventListener("click", nextQuestion);
+nextButton.addEventListener("click", updateContent);
 
 /*******************************************************************/
 /*******************************************************************/
@@ -94,23 +110,27 @@ nextButton.addEventListener("click", nextQuestion);
 
 initGame();
 
-/*set question and answer text*/
-
-/*set score*/
-
-scoreHTML.textContent = score;
-maxScoreHTML.textContent = maxScore;
-
-/*set timeleft total*/
-
-timeSavedHTML.textContent = timeSaved;
-totalTimeHTML.textContent = totalTime;
-
 /*******************************************************************/
 /*******************************************************************/
 
 /************** Functions to use - Logic **************************/
 /******************************************************************/
+
+function updateContent() {
+  if (numberofQuestionsToAsk > 0) {
+    correctToShowHTML.classList.add("hidden");
+    if (numberofQuestionsToAsk == 1) {
+      btn.textContent = "Quiz beenden";
+    }
+    questionNumberHTML.textContent = numberOfQuestionsAllreadyAsked + 1;
+    momentScoreHTML.textContent = "";
+    stoppTimer = false;
+    quizTimer();
+    nextQuestion();
+  } else {
+    gameOver();
+  }
+}
 
 /* Function called to show the next question (on button click and on first loading) */
 
@@ -135,10 +155,36 @@ function nextQuestion() {
   answer3HTML.innerText = questionArray[questionNumberToShow].answerArray[2];
   answer4HTML.innerText = questionArray[questionNumberToShow].answerArray[3];
 
+  correctToShowHTML.innerText = `Leider ze spéit! Déi richteg Äntwert war ${questionArray[questionNumberToShow].correctAnswer}`;
+
   /* Set allready asked to true because question was asked */
 
   questionArray[questionNumberToShow].allreadyAsked = true;
-  console.log(questionArray[questionNumberToShow]);
+
+  /* Remove colors and hidden from answers */
+
+  answer1HTML.classList.remove("answerfalse");
+  answer2HTML.classList.remove("answerfalse");
+  answer3HTML.classList.remove("answerfalse");
+  answer4HTML.classList.remove("answerfalse");
+  answer1HTML.classList.remove("answercorrect");
+  answer2HTML.classList.remove("answercorrect");
+  answer3HTML.classList.remove("answercorrect");
+  answer4HTML.classList.remove("answercorrect");
+  allAnswersHTML.classList.remove("hidden");
+
+  /* Set possible trys back to 4 */
+
+  answerTrys = 4;
+
+  /* Update questions to ask */
+  numberOfQuestionsAllreadyAsked++;
+  numberofQuestionsToAsk--;
+  console.log(numberofQuestionsToAsk);
+
+  /* Update image */
+
+  imageFeedbackHTML.setAttribute("src", "questionMark.png");
 }
 
 /* Function to check if the answer is correct */
@@ -146,8 +192,15 @@ function nextQuestion() {
 function checkAnswer() {
   if (this.innerText == questionArray[questionNumberToShow].correctAnswer) {
     imageFeedbackHTML.setAttribute("src", "yeah.jpg");
+    this.classList.add("answercorrect");
+    setScore(answerTrys);
+    timeSaved += timeLeftPerQuestion;
+    timeSavedHTML.textContent = timeSaved;
+    stoppTimer = true;
   } else {
     imageFeedbackHTML.setAttribute("src", "fail.jpg");
+    this.classList.add("answerfalse");
+    answerTrys--;
   }
 }
 
@@ -173,10 +226,88 @@ function shuffleArray(array) {
   return array;
 }
 
+/* Function to set the new score*/
+
+function setScore(value) {
+  switch (value) {
+    case 4:
+      momentScoreHTML.textContent = "+4";
+      score += 4;
+      break;
+    case 3:
+      momentScoreHTML.textContent = "+2";
+      score += 2;
+      break;
+    case 2:
+      momentScoreHTML.textContent = "+1";
+      score += 1;
+      break;
+    case 1:
+      momentScoreHTML.textContent = 0;
+      score += 0;
+      break;
+    default:
+      momentScoreHTML.textContent = 0;
+      score += 0;
+  }
+
+  scoreHTML.textContent = score;
+}
+
+/* Function when the game is over */
+
+function gameOver() {
+  btn.classList.add("hidden");
+  actualQuizHTML.classList.add("hidden");
+  imageFeedbackHTML.setAttribute("src", "results.png");
+}
+
 /* Function called to init the game on site loading*/
 
 function initGame() {
-  nextQuestion();
+  /*set title*/
+
+  titleHTML.textContent = quizTitle;
+
+  /*set max questions number*/
+
+  maxQuestionsHTML.textContent = numberofQuestionsToAsk;
+
+  /*set score*/
+
+  scoreHTML.textContent = score;
+  maxScoreHTML.textContent = maxScore;
+
+  /*set timeleft total*/
+
+  timeSavedHTML.textContent = timeSaved;
+  totalTimeHTML.textContent = totalTime;
+
+  /*no image to start*/
+
+  imageFeedbackHTML.setAttribute("src", "questionMark.png");
+  updateContent();
+}
+
+/*TIMER*/
+
+function quizTimer() {
+  progressbarHTML.setAttribute("max", timePerQuestion);
+  timeLeftPerQuestion = timePerQuestion;
+  var downloadTimer = setInterval(function () {
+    if (timeLeftPerQuestion <= 0) {
+      allAnswersHTML.classList.add("hidden");
+      correctToShowHTML.classList.remove("hidden");
+      clearInterval(downloadTimer);
+    }
+
+    if (stoppTimer) {
+      clearInterval(downloadTimer);
+    }
+    progressbarHTML.value = timePerQuestion - timeLeftPerQuestion;
+    timeInSecondsHTML.textContent = timeLeftPerQuestion;
+    timeLeftPerQuestion -= 1;
+  }, 1000);
 }
 
 /*******************************************************************/
