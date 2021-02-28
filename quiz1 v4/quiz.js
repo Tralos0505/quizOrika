@@ -38,7 +38,7 @@ var questionArray = [
 
 let quizTitle = "Chemie Quiz v.4 (with Timer)";
 
-let numberofQuestionsToAsk = 3;
+let numberofQuestionsToAsk = 5;
 
 let questionNumberToShow = Math.floor(Math.random() * questionArray.length);
 let numberOfQuestionsAllreadyAsked = 0;
@@ -47,7 +47,7 @@ let answerTrys = 4;
 let score = 0;
 let maxScore = numberofQuestionsToAsk * 4;
 
-let timePerQuestion = 60;
+let timePerQuestion = 8;
 let totalTime = timePerQuestion * numberofQuestionsToAsk;
 let timeSaved = 0;
 let stoppTimer = false;
@@ -259,6 +259,8 @@ function setScore(value) {
 function gameOver() {
   btn.classList.add("hidden");
   actualQuizHTML.classList.add("hidden");
+  momentScoreHTML.style.fontSize = "40px";
+  momentScoreHTML.textContent = quizTitle;
   imageFeedbackHTML.setAttribute("src", "results.png");
 }
 
